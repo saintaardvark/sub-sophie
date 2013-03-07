@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Usage: sophie showq
+# Summary: Get a list of jobs suitable for piping to other commands
+# Help: It's basically Torque's "showq" with some filtering.
+
+set -e
+
+showq | grep -E '^[[:digit:]]+' | grep -v Idle

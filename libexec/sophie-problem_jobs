@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Usage: sophie problem_jobs
+# Summary: Look for jobs with a Message field in checkjob output.
+# Help: Look for jobs with a Message field in checkjob output.
+
+for i in $(sophie showq | awk '{print $1}'); do
+	j=$(checkjob $i | grep Messages)
+	[ -n "$j" ] && echo $i $j
+done

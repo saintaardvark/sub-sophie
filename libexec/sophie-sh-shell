@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Usage: sh-shell
+# Summary: Simple example script
+# Help: FIXME: add help
+set -e
+
+echo $1

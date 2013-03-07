@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Usage: sophie kernlog
+# Summary: Show the last 100 lines of /var/log/kern
+# Help: Show the last 100 lines of /var/log/kern.  Often a good indicator of problems on a Rocks system.
+
+set -e
+
+sudo tail -100 /var/log/kern

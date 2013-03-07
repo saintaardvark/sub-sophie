@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Usage: sophie syslog [-v] [-w] [string]
+# Summary: Look for [string] in /var/log/*, or use -w to grep for WARN|ERROR
+# Help: Look for [string] in /var/log/*.
+#
+# -v By default boring lines are weeded out; use -v if you'd like them included.
+# -w show only WARN|ERROR lines.
+
+usage() {
+    $0 help
+}
+
+look_for_warnings() {
+    for i in $(ls -tr /opt/maui/log/) ; do
+	sudo grep -E 'WARN|ERROR' /opt/maui/log/$i /dev/null
+    done
+    exit
+}
+complain_and_die() {
+    echo $*
+    exit 2
+}
+
+VERBOSE=
+WARN=
+while getopts "vw" OPTION ; do
+     case $OPTION in
+         v) VERBOSE=1 ;;
+	 w) look_for_warnings ;;
+	 ?) usage ;;
+     esac
+done
+
+for i in $(ls -tr /var/log/) ; do
+	# FIXME: This test string is stupid
+	if [ "x$VERBOSE" = "x1" ] ; then
+		sudo grep -i $1 /var/log/$i /dev/null
+	else
+		sudo grep -i $1 /var/log/$i /dev/null | grep -vE 'automount|snmpd|qmgr|smtp|pam_unix|Accepted publickey|postfix'
+	fi
+done
