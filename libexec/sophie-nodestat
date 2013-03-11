@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Usage: sophie nodestat
+# Summary: Show node status in a few different ways
+# Help:
+set -e
+
+NODE=$1
+
+prettyprint() {
+    echo "$*:"
+    $*
+    echo "--------"
+}
+
+prettyprint pbsnodes $NODE
+prettyprint "mdiag -n | grep $NODE"
+prettyprint "checknode $NODE"
+prettyprint "ssh $NODE uptime"
+prettyprint "ssh $NODE ps auxww | grep -vE 'root|postfix'"
